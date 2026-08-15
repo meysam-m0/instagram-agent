@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "username": "user_cautious_1",
+        "patience": 0.9,
+        "risk_tolerance": 0.2,
+        "noise_affinity": 0.8,
+        "is_target_followed": true
+    },
+    {
+        "id": 2,
+        "username": "user_fast_2",
+        "patience": 0.3,
+        "risk_tolerance": 0.8,
+        "noise_affinity": 0.3,
+        "is_target_followed": true
+    },
+    {
+        "id": 3,
+        "username": "user_balanced_3",
+        "patience": 0.6,
+        "risk_tolerance": 0.5,
+        "noise_affinity": 0.6,
+        "is_target_followed": true
+    },
+    {
+        "id": 4,
+        "username": "user_curious_4",
+        "patience": 0.7,
+        "risk_tolerance": 0.3,
+        "noise_affinity": 0.9,
+        "is_target_followed": true
+    },
+    {
+        "id": 5,
+        "username": "user_bold_5",
+        "patience": 0.4,
+        "risk_tolerance": 0.9,
+        "noise_affinity": 0.2,
+        "is_target_followed": true
+    },
+    {
+        "id": 6,
+        "username": "user_patient_6",
+        "patience": 0.95,
+        "risk_tolerance": 0.1,
+        "noise_affinity": 0.7,
+        "is_target_followed": true
+    },
+    {
+        "id": 7,
+        "username": "user_scroller_7",
+        "patience": 0.5,
+        "risk_tolerance": 0.4,
+        "noise_affinity": 0.85,
+        "is_target_followed": true
+    },
+    {
+        "id": 8,
+        "username": "user_active_8",
+        "patience": 0.45,
+        "risk_tolerance": 0.75,
+        "noise_affinity": 0.5,
+        "is_target_followed": true
+    },
+    {
+        "id": 9,
+        "username": "user_chill_9",
+        "patience": 0.8,
+        "risk_tolerance": 0.35,
+        "noise_affinity": 0.6,
+        "is_target_followed": false
+    },
+    {
+        "id": 10,
+        "username": "user_direct_10",
+        "patience": 0.25,
+        "risk_tolerance": 0.85,
+        "noise_affinity": 0.15,
+        "is_target_followed": true
+    }
+]
