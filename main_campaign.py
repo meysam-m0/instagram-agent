@@ -35,7 +35,7 @@ class ActorCriticNetwork(nn.Module):
 # ۲. بارگذاری مدل PPO
 model = ActorCriticNetwork(  )
 if os.path.exists("ppo_agent_model.pth"):
-    model.load_state_dict(torch.load("ppo_agent_model.pth"))
+    model.load_state_dict(torch.load("ppo_agent_model.pth") , strict=False)
     model.eval()
 else:
     print(" فایل ppo_agent_model.pth پیدا نشد!")
