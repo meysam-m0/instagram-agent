@@ -9,7 +9,7 @@ from playwright.sync_api import sync_playwright
 
 # ۱. تعریف ساختار شبکه عصبی PPO
 class ActorCriticNetwork(nn.Module):
-    def init(self, input_dim=5, action_dim=6):
+    def __init__(self, input_dim=5, action_dim=6):
         super().__init__()
         
         self.shared_net = nn.Sequential(
