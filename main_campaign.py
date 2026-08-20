@@ -145,7 +145,7 @@ def run_campaign():
     ACTIVATION_PROBABILITY = 1.0 / CAMPAIGN_DAYS if CAMPAIGN_DAYS > 1 else 1.0
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
+        browser = p.chromium.launch(headless=True)
 
         for acc in accounts:
             if acc.get("is_target_followed", False):
