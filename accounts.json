@@ -2,7 +2,7 @@
     {
         "id": 1,
         "username": "account_id1_",
-        "password":"meysam13860900",
+        "password": "meysam13860900",
         "patience": 0.9,
         "risk_tolerance": 0.2,
         "noise_affinity": 0.8,
@@ -11,29 +11,28 @@
     {
         "id": 2,
         "username": "account_id2_",
-        "password":"meysam13860901",
+        "password": "meysam13860901",
         "patience": 0.3,
         "risk_tolerance": 0.8,
         "noise_affinity": 0.3,
-        "is_target_followed": false
+        "is_target_followed": true
     },
     {
         "id": 3,
         "username": "account_id3_",
-        "password":"meysam13860902",
+        "password": "meysam13860902",
         "patience": 0.6,
         "risk_tolerance": 0.5,
         "noise_affinity": 0.6,
-        "is_target_followed": false
+        "is_target_followed": true
     },
     {
         "id": 4,
         "username": "account_id4_",
-        "password":"meysam13860903",
+        "password": "meysam13860903",
         "patience": 0.7,
         "risk_tolerance": 0.3,
         "noise_affinity": 0.9,
-        "is_target_followed": false
+        "is_target_followed": true
     }
-    
 ]
