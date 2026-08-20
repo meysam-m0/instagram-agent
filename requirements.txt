@@ -3,4 +3,3 @@ numpy
 playwright
 scikit_learn
 pandas
-random
