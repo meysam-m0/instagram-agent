@@ -33,7 +33,7 @@ class ActorCriticNetwork(nn.Module):
         return self.actor(shared_out), self.critic(shared_out)
 
 # ۲. بارگذاری مدل PPO
-model = ActorCriticNetwork( input_dim = 5 , action_dim = 6 )
+model = ActorCriticNetwork(  5 , 6 )
 if os.path.exists("ppo_agent_model.pth"):
     model.load_state_dict(torch.load("ppo_agent_model.pth"))
     model.eval()
