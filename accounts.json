@@ -6,8 +6,7 @@
         "patience": 0.9,
         "risk_tolerance": 0.2,
         "noise_affinity": 0.8,
-        "is_target_followed": true,
-        "is_target_liked": true
+        "is_target_followed": false,
     },
     {
         "id": 2,
@@ -34,6 +33,6 @@
         "patience": 0.7,
         "risk_tolerance": 0.3,
         "noise_affinity": 0.9,
-        "is_target_followed": true
+        "is_target_followed": false
     }
 ]
