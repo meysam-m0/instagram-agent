@@ -15,7 +15,7 @@
         "patience": 0.3,
         "risk_tolerance": 0.8,
         "noise_affinity": 0.3,
-        "is_target_followed": true
+        "is_target_followed": false
     },
     {
         "id": 3,
@@ -24,7 +24,7 @@
         "patience": 0.6,
         "risk_tolerance": 0.5,
         "noise_affinity": 0.6,
-        "is_target_followed": true
+        "is_target_followed": false
     },
     {
         "id": 4,
@@ -33,6 +33,6 @@
         "patience": 0.7,
         "risk_tolerance": 0.3,
         "noise_affinity": 0.9,
-        "is_target_followed": true
+        "is_target_followed": false
     }
 ]
