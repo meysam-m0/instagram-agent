@@ -126,7 +126,7 @@ def execute_action(page, action_id, target_username, account):
             target_url = f"https://www.instagram.com/{target_username}/"
             page.goto(target_url, timeout=60000, wait_until="domcontentloaded")
             time.sleep(4)
-
+            context = page.context
             # چک کردن لاگین با تابع اصلاح شده
             is_logged_in = check_and_login(
                 page,
