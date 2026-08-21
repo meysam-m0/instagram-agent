@@ -130,8 +130,10 @@ def execute_action(page, action_id, target_username, account):
             # چک کردن لاگین با تابع اصلاح شده
             is_logged_in = check_and_login(
                 page,
+                context,
                 account["username"], 
-                account.get("password", ""), 
+                account.get("password", ""),
+                all_cookies
             )
 
             if not is_logged_in:
