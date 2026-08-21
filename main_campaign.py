@@ -155,6 +155,28 @@ def execute_action(page, action_id, target_username, account):
     except Exception as e:
         print(f"⚠️ خطا در اجرای اکشن {action_name}: {e}")
 
+
+def check_and_login(page, context, user, password, all_cookies):
+    if "login" in page.url:
+        print(f"🔑 کوکی منقضی شده! در حال لاگین خودکار برای {user}...")
+        page.fill("input[name='username']", user)
+        page.fill("input[name='password']", password)
+        page.click("button[type='submit']")
+        time.sleep(8)
+        
+        if "login" not in page.url:
+            print(f"✅ لاگین جدید برای {user} موفقیت‌آمیز بود.")
+            # به‌روزرسانی کوکی‌های جدید در فایل
+            all_cookies[user] = context.cookies()
+            with open("cookies.json", "w", encoding="utf-8") as f:
+                json.dump(all_cookies, f, indent=4)
+            return True
+        else:
+            print(f"❌ لاگین ناموفق برای {user}")
+            return False
+    return True
+
+
 def run_campaign():
     target_username = "account_target_"  # نام کاربری پیج هدف را اینجا وارد کنید
     accounts = load_accounts()
