@@ -164,14 +164,24 @@ def execute_action(page, action_id, target_username, account):
 def check_and_login(page, context, user, password, all_cookies):
     if "login" in page.url:
         print(f"🔑 کوکی منقضی شده! در حال لاگین خودکار برای {user}...")
-        page.fill("input[name='username']", user)
-        page.fill("input[name='password']", password)
-        page.click("button[type='submit']")
-        time.sleep(8)
-        
+        try:
+            # منتظر ماندن برای ظاهر شدن کادر یوزرنام (حداکثر ۱۰ ثانیه)
+            user_input = page.wait_for_selector("input[name='username']", timeout=10000)
+            if user_input and password:
+                user_input.fill(user)
+                page.fill("input[name='password']", password)
+                page.click("button[type='submit']")
+                time.sleep(8)
+            else:
+                print(f"❌ فرم لاگین پیدا نشد یا رمز عبور خالی است.")
+                return False
+        except Exception as e:
+            print(f"❌ فرم لاگین بارگذاری نشد (احتمال وجود کپچا یا بلاک IP): {e}")
+            return False
+
+        # بررسی نتیجه لاگین
         if "login" not in page.url:
             print(f"✅ لاگین جدید برای {user} موفقیت‌آمیز بود.")
-            # به‌روزرسانی کوکی‌های جدید در فایل
             all_cookies[user] = context.cookies()
             with open("cookies.json", "w", encoding="utf-8") as f:
                 json.dump(all_cookies, f, indent=4)
