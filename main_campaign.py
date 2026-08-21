@@ -122,19 +122,35 @@ def execute_action(page, action_id, target_username, account):
                     print("✅ پست پیج هدف لایک شد.")
                     account["is_target_liked"] = True
         elif action_id == 5:  # Follow Target
-            page.goto(f"https://www.instagram.com/{target_username}/", timeout=60000, wait_until="networkidle")
-            time.sleep(3)
+            target_url = f"https://www.instagram.com/{target_username}/"
+            page.goto(target_url, timeout=60000, wait_until="domcontentloaded")
+            time.sleep(5)
             
-            # جستجوی تمام حالت‌های دکمه فالو
-            follow_btn = page.locator("header button").filter(has_text=["Follow", "دنبال کردن", "فالو"]).first
+            # چاپ آدرس فعلی برای اینکه ببینیم ریدایرکت شده یا نه
+            print(f"🔗 آدرس فعلی: {page.url}")
+            
+            # بررسی اینکه آیا به صفحه لاگین ریدایرکت شده‌ایم یا خیر
+            if "login" in page.url:
+                print("❌ ربات به صفحه لاگین ریدایرکت شد! کوکی‌ها منقضی شده‌اند.")
+                return 
+
+            # جستجوی هوشمند برای دکمه‌های مختلف
+            # استفاده از دکمه‌هایی که متن آن‌ها شامل فالو یا درخواست باشد
+            # همچنین بررسی اینکه آیا قبلا فالو شده یا خیر
+            follow_btn = page.locator("header button").filter(has_text=lambda t: t in ["Follow", "دنبال کردن", "Request", "درخواست"]).first
             
             if follow_btn.is_visible():
                 follow_btn.scroll_into_view_if_needed()
                 follow_btn.click()
-                print("✅ پیج هدف با موفقیت فالو شد.")
+                print("✅ پیج هدف فالو/درخواست شد.")
+                account["is_target_followed"] = True
+            elif page.locator("header button:has-text('Following'), header button:has-text('دنبال می‌کنید')").is_visible():
+                print("ℹ️ اکانت قبلاً فالو شده است.")
                 account["is_target_followed"] = True
             else:
-                print("❌ دکمه فالو پیدا نشد یا صفحه به درستی لود نشده است.")
+                print("❌ دکمه‌ای پیدا نشد. ممکن است صفحه پرایوت یا ساختار متفاوت باشد.")
+                # گرفتن عکس برای عیب‌یابی در صورت عدم موفقیت
+                page.screenshot(path="debug_error.png")
 
     except Exception as e:
         print(f"⚠️ خطا در اجرای اکشن {action_name}: {e}")
