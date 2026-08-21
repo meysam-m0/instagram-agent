@@ -129,10 +129,10 @@ def execute_action(page, action_id, target_username, account):
             # بررسی اگر به لاگین منتقل شد، همان‌جا لاگین کند
             if "login" in page.url:
             # استخراج نام کاربری به صورت String
-            username_str = str(account["username"])
-            pwd_str = str(account.get("password", ""))
+                username_str = str(account["username"])
+                pwd_str = str(account.get("password", ""))
             
-            print(f"🔑 کوکی منقضی شده! در حال لاگین خودکار برای {username_str}...")
+                print(f"🔑 کوکی منقضی شده! در حال لاگین خودکار برای {username_str}...")
             
             if pwd_str:
                 page.fill("input[name='username']", username_str)
