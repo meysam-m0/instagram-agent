@@ -128,19 +128,24 @@ def execute_action(page, action_id, target_username, account):
             
             # بررسی اگر به لاگین منتقل شد، همان‌جا لاگین کند
             if "login" in page.url:
-                print(f"🔑 کوکی منقضی شده! در حال لاگین خودکار برای {account}...")
-                pwd = account.get("password", "")
-                if pwd:
-                    page.fill("input[name='username']", account)
-                    page.fill("input[name='password']", pwd)
-                    page.click("button[type='submit']")
-                    time.sleep(8)
-                    # بعد از لاگین دوباره به پیج هدف برود
-                    page.goto(target_url, timeout=60000, wait_until="domcontentloaded")
-                    time.sleep(4)
-                else:
-                    print(f"❌ رمز عبور برای {account} در accounts.json یافت نشد!")
-                    return
+            # استخراج نام کاربری به صورت String
+            username_str = str(account["username"])
+            pwd_str = str(account.get("password", ""))
+            
+            print(f"🔑 کوکی منقضی شده! در حال لاگین خودکار برای {username_str}...")
+            
+            if pwd_str:
+                page.fill("input[name='username']", username_str)
+                page.fill("input[name='password']", pwd_str)
+                page.click("button[type='submit']")
+                time.sleep(8)
+                
+                # هدایت مجدد به پیج هدف پس از لاگین
+                page.goto(target_url, timeout=60000, wait_until="domcontentloaded")
+                time.sleep(4)
+            else:
+                print(f"❌ رمز عبور برای {username_str} پیدا نشد!")
+                return
 
             # کلیک روی دکمه فالو
             follow_btn = page.locator("header button").filter(has_text=["Follow", "دنبال کردن", "فالو"]).first
