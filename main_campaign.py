@@ -83,46 +83,60 @@ def execute_action(page, action_id, target_username, account):
 
     try:
         if action_id == 0:  # Scroll
-            page.mouse.wheel(0, 400)
+            page.mouse.wheel(0, 500)
+            time.sleep(2)
             
         elif action_id == 1:  # View Story
-            stories = page.locator("canvas")
-            if stories.count() > 0:
-                stories.first.click()
-                time.sleep(4)
+            story = page.locator("canvas, div[role='button']:has-text('Story')").first
+            if story.is_visible():
+                story.click()
+                time.sleep(5)
 
-        elif action_id == 2:  # Like Noise (لایک اولین پست در صفحه اصلی)
-            like_btns = page.locator("svg[aria-label='Like']")
-            if like_btns.count() > 0:
-                like_btns.first.click()
+        elif action_id == 2:  # Like Noise
+            # کلیک روی اولین آیکون لایک موجود در صفحه
+            like_btn = page.locator("span:has(svg[aria-label='Like']), span:has(svg[aria-label='پسندیدن'])").first
+            if like_btn.is_visible():
+                like_btn.click()
+                print("✅ پست نویز لایک شد.")
                 time.sleep(2)
 
-        elif action_id == 3:  # Follow Noise (فالو کردن اکانت پیشنهادی)
-            follow_btns = page.locator("button:has-text('Follow')")
-            if follow_btns.count() > 0:
-                follow_btns.first.click()
+        elif action_id == 3:  # Follow Noise
+            # کلیک روی دکمه‌های فالو پیشنهادی
+            follow_btn = page.locator("button:has-text('Follow'), button:has-text('دنبال کردن')").first
+            if follow_btn.is_visible():
+                follow_btn.click()
+                print("✅ یک اکانت نویز فالو شد.")
                 time.sleep(2)
 
         elif action_id == 4:  # Like Target
-            page.goto(f"https://www.instagram.com/{target_username}/", timeout=60000, wait_until="domcontentloaded")
+            page.goto(f"https://www.instagram.com/{target_username}/", timeout=60000, wait_until="networkidle")
             time.sleep(3)
-            like_btns = page.locator("svg[aria-label='Like']")
-            if like_btns.count() > 0:
-                like_btns.first.click()
-            account["is_target_liked"] = True
+            # باز کردن اولین پست
+            first_post = page.locator("article a[href*='/p/']").first
+            if first_post.is_visible():
+                first_post.click()
+                time.sleep(3)
+                like_btn = page.locator("span:has(svg[aria-label='Like']), span:has(svg[aria-label='پسندیدن'])").first
+                if like_btn.is_visible():
+                    like_btn.click()
+                    print("✅ پست پیج هدف لایک شد.")
+                    account["is_target_liked"] = True
 
         elif action_id == 5:  # Follow Target
-            page.goto(f"https://www.instagram.com/{target_username}/", timeout=60000, wait_until="domcontentloaded")
+            page.goto(f"https://www.instagram.com/{target_username}/", timeout=60000, wait_until="networkidle")
             time.sleep(3)
-            follow_btn = page.locator("button:has-text('Follow')")
-            if follow_btn.count() > 0:
-                follow_btn.first.click()
-            account["is_target_followed"] = True
+            # پیدا کردن دقیق دکمه فالو در بالای پروفایل
+            follow_btn = page.locator("header button:has-text('Follow'), header button:has-text('دنبال کردن')").first
+            if follow_btn.is_visible():
+                follow_btn.click()
+                print("✅ پیج هدف فالو شد.")
+                account["is_target_followed"] = True
 
     except Exception as e:
-        print(f"خطا در اجرای اکشن {action_name}: {e}")
+        print(f"⚠️ خطا در اجرای اکشن {action_name}: {e}")
+
 def run_campaign():
-    target_username = "account_target_"
+    target_username = "account_target_"  # نام کاربری پیج هدف را اینجا وارد کنید
     accounts = load_accounts()
 
     try:
@@ -131,9 +145,6 @@ def run_campaign():
     except FileNotFoundError:
         print("ارور: فایل cookies.json پیدا نشد!")
         return
-
-    CAMPAIGN_DAYS = 1
-    ACTIVATION_PROBABILITY = 1.0 / CAMPAIGN_DAYS if CAMPAIGN_DAYS > 1 else 1.0
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
@@ -149,19 +160,15 @@ def run_campaign():
                 print(f"اکانت {user} قبلاً پیج هدف را فالو کرده است. رد می‌شود.")
                 continue
 
-            if random.random() > ACTIVATION_PROBABILITY:
-                print(f"اکانت {user} در این چرخه استراحت می‌کند.")
-                continue
-
             print(f"شروع فعالیت اکانت: {user}")
 
-            context = browser.new_context()
+            context = browser.new_context(viewport={'width': 1280, 'height': 800})
             context.add_cookies(all_cookies[user])
             page = context.new_page()
 
             try:
                 page.goto("https://www.instagram.com", timeout=60000, wait_until="domcontentloaded")
-                time.sleep(3)
+                time.sleep(4)
             except Exception as e:
                 print(f"خطا در باز کردن صفحه برای {user}: {e}")
                 page.close()
