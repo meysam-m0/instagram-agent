@@ -121,38 +121,31 @@ def execute_action(page, action_id, target_username, account):
                     like_btn.click()
                     print("✅ پست پیج هدف لایک شد.")
                     account["is_target_liked"] = True
-        elif action_id == 5:  # Follow Target
+                    
+         elif action_id == 5:  # Follow Target
             target_url = f"https://www.instagram.com/{target_username}/"
             page.goto(target_url, timeout=60000, wait_until="domcontentloaded")
             time.sleep(4)
-            
-            # بررسی اگر به لاگین منتقل شد، همان‌جا لاگین کند
-            if "login" in page.url:
-            # استخراج نام کاربری به صورت String
-                username_str = str(account["username"])
-                pwd_str = str(account.get("password", ""))
-            
-                print(f"🔑 کوکی منقضی شده! در حال لاگین خودکار برای {username_str}...")
-            
-            if pwd_str:
-                page.fill("input[name='username']", username_str)
-                page.fill("input[name='password']", pwd_str)
-                page.click("button[type='submit']")
-                time.sleep(8)
-                
-                # هدایت مجدد به پیج هدف پس از لاگین
-                page.goto(target_url, timeout=60000, wait_until="domcontentloaded")
-                time.sleep(4)
-            else:
-                print(f"❌ رمز عبور برای {username_str} پیدا نشد!")
+
+            # چک کردن لاگین با تابع اصلاح شده
+            is_logged_in = check_and_login(
+                page, 
+                context, 
+                account["username"], 
+                account.get("password", ""), 
+                all_cookies
+            )
+
+            if not is_logged_in:
+                print(f"⚠️ امکان لاگین خودکار برای {account['username']} وجود ندارد (احتمال بلاک IP یا کپچا).")
                 return
 
-            # کلیک روی دکمه فالو
+            # تلاش برای پیدا کردن و کلیک روی دکمه فالو
             follow_btn = page.locator("header button").filter(has_text=["Follow", "دنبال کردن", "فالو"]).first
             if follow_btn.is_visible():
                 follow_btn.scroll_into_view_if_needed()
                 follow_btn.click()
-                print("✅ پیج هدف با موفقیت فالو شد.")
+                print("✅ پیج هدف فالو شد.")
                 account["is_target_followed"] = True
             else:
                 print("❌ دکمه فالو پیدا نشد.")
