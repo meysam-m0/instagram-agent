@@ -2,7 +2,7 @@ name: Run Instagram Agent
 
 on:
   schedule:
-    - cron: '20 15 * * *' # اجرا در ساعت‌های 16  و 17  به وقت ایران
+    - cron: '20 16 * * *' # اجرا در ساعت‌های 16  و 17  به وقت ایران
   workflow_dispatch: # امکان اجرای دستی
 
 jobs:
