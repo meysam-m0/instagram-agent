@@ -121,17 +121,17 @@ def execute_action(page, action_id, target_username, account):
                     like_btn.click()
                     print("✅ پست پیج هدف لایک شد.")
                     account["is_target_liked"] = True
-         elif action_id == 5:  # Follow Target
-             target_url = f"https://www.instagram.com/{target_username}/"
-             page.goto(target_url, timeout=60000, wait_until="domcontentloaded")
-             time.sleep(4)
+        elif action_id == 5:  # Follow Target
+            target_url = f"https://www.instagram.com/{target_username}/"
+            page.goto(target_url, timeout=60000, wait_until="domcontentloaded")
+            time.sleep(4)
             
             # بررسی اگر به لاگین منتقل شد، همان‌جا لاگین کند
             if "login" in page.url:
-                print(f"🔑 کوکی منقضی شده! در حال لاگین خودکار برای {user}...")
+                print(f"🔑 کوکی منقضی شده! در حال لاگین خودکار برای {account}...")
                 pwd = account.get("password", "")
                 if pwd:
-                    page.fill("input[name='username']", user)
+                    page.fill("input[name='username']", account)
                     page.fill("input[name='password']", pwd)
                     page.click("button[type='submit']")
                     time.sleep(8)
@@ -139,7 +139,7 @@ def execute_action(page, action_id, target_username, account):
                     page.goto(target_url, timeout=60000, wait_until="domcontentloaded")
                     time.sleep(4)
                 else:
-                    print(f"❌ رمز عبور برای {user} در accounts.json یافت نشد!")
+                    print(f"❌ رمز عبور برای {account} در accounts.json یافت نشد!")
                     return
 
             # کلیک روی دکمه فالو
