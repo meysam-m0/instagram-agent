@@ -133,7 +133,7 @@ def execute_action(page, action_id, target_username, account):
                 context,
                 account["username"], 
                 account.get("password", ""),
-                all_cookies
+                {}
             )
 
             if not is_logged_in:
