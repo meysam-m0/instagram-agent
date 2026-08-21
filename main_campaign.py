@@ -121,16 +121,20 @@ def execute_action(page, action_id, target_username, account):
                     like_btn.click()
                     print("✅ پست پیج هدف لایک شد.")
                     account["is_target_liked"] = True
-
         elif action_id == 5:  # Follow Target
             page.goto(f"https://www.instagram.com/{target_username}/", timeout=60000, wait_until="networkidle")
             time.sleep(3)
-            # پیدا کردن دقیق دکمه فالو در بالای پروفایل
-            follow_btn = page.locator("header button:has-text('Follow'), header button:has-text('دنبال کردن')").first
+            
+            # جستجوی تمام حالت‌های دکمه فالو
+            follow_btn = page.locator("header button").filter(has_text=["Follow", "دنبال کردن", "فالو"]).first
+            
             if follow_btn.is_visible():
+                follow_btn.scroll_into_view_if_needed()
                 follow_btn.click()
-                print("✅ پیج هدف فالو شد.")
+                print("✅ پیج هدف با موفقیت فالو شد.")
                 account["is_target_followed"] = True
+            else:
+                print("❌ دکمه فالو پیدا نشد یا صفحه به درستی لود نشده است.")
 
     except Exception as e:
         print(f"⚠️ خطا در اجرای اکشن {action_name}: {e}")
