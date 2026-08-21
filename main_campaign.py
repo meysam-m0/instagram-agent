@@ -1,4 +1,4 @@
-import os
+mimport os
 import json
 import time
 import random
@@ -148,8 +148,22 @@ def run_campaign():
         browser = p.chromium.launch(headless=True)
 
         for acc in accounts:
+                   # ساخت نام فایل کوکی اختصاصی برای هر اکانت
+            session_file = f"session_{acc['username']}.json"
+
+            # باز کردن مرورگر با نشست ذخیره‌شده اکانت
+            try:
+                context = browser.new_context(storage_state=session_file)
+            except Exception as e:
+                print(f"فایل کوکی برای {acc['username']} پیدا نشد!")
+                continue
+
+            page = context.new_page()
+
             if acc.get("is_target_followed", False):
                 print(f"اکانت {acc['username']} قبلاً پیج هدف را فالو کرده است. رد می‌شود.")
+                page.close()
+                context.close()
                 continue
 
             # تصمیم‌گیری تصادفی برای استراحت یا فعالیت روزانه
