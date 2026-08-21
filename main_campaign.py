@@ -122,18 +122,16 @@ def execute_action(page, action_id, target_username, account):
                     print("✅ پست پیج هدف لایک شد.")
                     account["is_target_liked"] = True
                     
-         elif action_id == 5:  # Follow Target
+        elif action_id == 5:  # Follow Target
             target_url = f"https://www.instagram.com/{target_username}/"
             page.goto(target_url, timeout=60000, wait_until="domcontentloaded")
             time.sleep(4)
 
             # چک کردن لاگین با تابع اصلاح شده
             is_logged_in = check_and_login(
-                page, 
-                context, 
+                page,
                 account["username"], 
                 account.get("password", ""), 
-                all_cookies
             )
 
             if not is_logged_in:
